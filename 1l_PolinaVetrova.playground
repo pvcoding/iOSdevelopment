@@ -1,0 +1,80 @@
+//: Playground - noun: a place where people can play
+
+import UIKit
+
+// 1. Решить квадратное уравнение.
+
+// ax^2 + bx + c = 0
+// D = b^2 - 4ac
+
+var a:Double = 4.0
+var b:Double = 8.0
+var c:Double = 2.0
+
+var x1:Double = 0.0
+var x2:Double = 0.0
+
+let d = pow(b, 2) - 4*a*c
+
+if (a == 0){
+    print("а не может равняться нулю")
+} else {
+    if (d < 0){
+        print("Корней нет")
+    } else if (d == 0){
+       x1 = (-b + sqrt(d))/(2 * a)
+        print("Есть один корень: " + String(x1))
+    } else if (d > 0){
+        x1 = (-b + sqrt(d))/(2 * a)
+        x2 = (-b - sqrt(d))/(2 * a)
+        print("Есть два корня: " + String(x1) + " и " + String(x2))
+    }
+}
+
+
+print("--------------------")
+
+//*****************************************
+
+// 2. Даны катеты прямоугольного треугольника. Найти площадь, периметр и гипотенузу треугольника.
+
+
+// Гипотенуза вычисляется по теореме Пифагора: c^2 = a^2 + b^2
+
+var side1:Double = 6
+var side2:Double = 8
+
+if (side1 <= 0){
+    print("Катеты не могут быть меньше или равняться нулю")
+} else {
+
+let hypotenuse = sqrt(pow(side1,2) + pow(side2,2))
+
+let perimeter:Double  = side1 + side2 + hypotenuse
+
+let s:Double  = (side1 * side2) / 2
+
+    print("Гипотенуза равна: " + String(hypotenuse) + ", периметр равен: " + String(perimeter) + ", площадь равна: " + String(s))
+}
+
+
+print("--------------------")
+
+//*****************************************
+
+// 3. Пользователь вводит сумму вклада в банк и годовой процент. Найти сумму вклада через 5 лет.
+
+
+
+var deposit:Double = 10000
+var percentPorYear:Double = 20
+var percent:Double = 1 + percentPorYear/100
+
+var time = ["год", "два года", "три года", "четыре года", "пять лет"]
+
+for index in 0..<5 {
+
+    deposit = (deposit * percent)
+
+    print("Через " + String(time[index]) + " размер Вашего вклада составит " + String(deposit) + " рублей.")
+}
