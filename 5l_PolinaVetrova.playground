@@ -1,0 +1,146 @@
+
+
+import UIKit
+
+enum windowsState: String {
+    case open = "Окна открыты"
+    case close = "Окна закрыты"
+}
+
+enum engineState: String {
+    case on = "Двигатель включен"
+    case off = "Двигатель выключен"
+}
+
+enum trunkState: String {
+    case full = "полный"
+    case empty = "пустой"
+}
+
+protocol CarNamed {
+
+    var name: String {get}
+    var year: Int {get}
+    var engineState: engineState {get set}
+    var windowState: windowsState {get set}
+}
+
+
+
+extension CarNamed {
+
+    mutating func changeEngineState(engineState: engineState) {
+        self.engineState = engineState
+        switch engineState {
+        case .off:
+            print("Двигатель выключен")
+        case .on:
+            print("Двигатель включен")
+
+        }
+    }
+
+    mutating func changeWindowState(windowsState: windowsState){
+        self.windowState = windowsState
+
+            switch windowsState {
+            case .close:
+                print("Окна закрыты")
+            case .open:
+                print("Окна открыты")
+
+            }
+
+    }
+
+}
+
+class Car : CarNamed {
+    var name: String
+    var year: Int
+    var engineState: engineState = .off
+    var windowState: windowsState = .close
+
+    init(name: String, year: Int) {
+        self.name = name
+        self.year = year
+    }
+
+
+
+}
+
+class TrunkCar: Car, CustomStringConvertible {
+
+    var trunkState: trunkState
+
+    var description: String {
+        return "Автомобиль \(name) грузового типа, \(year) года. \(windowState.rawValue). \(engineState.rawValue). Багажник \(trunkState.rawValue)."
+    }
+
+    func changeTrunkState(trunk: trunkState) {
+        self.trunkState = trunk
+        switch trunkState {
+        case .empty:
+            print("Багажник разгружен")
+        case .full:
+            print("Багажник загружен")
+
+        }
+    }
+
+
+
+    init(name: String, year: Int, trunkState: trunkState) {
+        self.trunkState = trunkState
+
+        super.init(name: name, year: year)
+    }
+
+
+
+}
+
+class SportCar: Car, CustomStringConvertible {
+
+    var maxSpeed: Int
+
+    func changeMaxSpeed(maxSpeed: Int) {
+        self.maxSpeed = maxSpeed
+        print("Максимальная скорость изменена на: \(maxSpeed)")
+    }
+
+    var description: String {
+        return "Спортивный втомобиль \(name), \(year) года. \(windowState.rawValue). \(engineState.rawValue). Максимальная скорость: \(maxSpeed) км/ч."
+    }
+
+    init(name: String, year: Int, maxSpeed: Int) {
+        self.maxSpeed = maxSpeed
+
+        super.init(name: name, year: year)
+    }
+
+}
+
+
+
+
+
+var myTrunkCar = TrunkCar(name: "UAZ", year: 2013, trunkState: .empty)
+
+print(myTrunkCar.description)
+myTrunkCar.changeEngineState(engineState: .on)
+myTrunkCar.changeWindowState(windowsState: .open)
+myTrunkCar.changeTrunkState(trunk: .full)
+print(myTrunkCar.description)
+
+
+print("________")
+
+
+var mySportCar = SportCar(name: "BMW", year: 2017, maxSpeed: 200)
+print(mySportCar.description)
+mySportCar.changeWindowState(windowsState: .open)
+mySportCar.changeEngineState(engineState: .on)
+mySportCar.changeMaxSpeed(maxSpeed: 300)
+print(mySportCar.description)

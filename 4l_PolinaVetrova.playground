@@ -1,0 +1,110 @@
+
+import UIKit
+
+
+class Car {
+
+    enum EngineState: String {
+        case start = "включен"
+        case stop = "выключен"
+    }
+
+    enum WindowState: String {
+        case open = "открыты"
+        case close = "закрыты"
+    }
+
+
+    var brand: String
+    var year: Int
+
+
+    func description() -> () {
+        print("Марка автомобиля: \(brand), год выпуска: \(year)")
+    }
+
+    init(brand: String, year: Int) {
+        self.brand = brand
+        self.year = year
+    }
+
+}
+
+// Экземпляр родительского класса:
+
+var myCar = Car(brand: "BMW", year: 2015)
+myCar.description()
+
+
+print("______")
+
+
+class TrunkCar : Car {
+
+    enum TrunkState: String {
+        case empty = "пустой"
+        case full = "полный"
+    }
+
+    var trunkState: TrunkState
+    var windowState : WindowState
+    var engineState : EngineState
+
+    init(brand: String, year: Int, trunkState: TrunkState, engineState: EngineState, windowState: WindowState) {
+        self.trunkState = trunkState
+        self.engineState = engineState
+        self.windowState = windowState
+        super.init(brand: brand, year: year)
+    }
+
+
+    override func description() -> () {
+        print("Марка грузового автомобиля: \(brand), год выпуска: \(year), двигатель \(engineState.rawValue), окна \(windowState.rawValue).")
+        print("Багажник \(trunkState.rawValue).")
+    }
+
+
+
+
+}
+
+
+// создание экземпляра подкласса TrunkCar:
+var newTrunkCar = TrunkCar(brand: "UAZ", year: 2014, trunkState: .empty, engineState: .stop, windowState: .close)
+newTrunkCar.description()
+newTrunkCar.windowState = .open
+newTrunkCar.engineState = .start
+newTrunkCar.trunkState = .full
+newTrunkCar.description()
+
+
+
+print("______")
+
+
+class SportCar : Car {
+
+    var maxSpeed: Int
+    var windowState : WindowState
+    var engineState : EngineState
+
+    init(brand: String, year: Int, maxSpeed: Int, engineState: EngineState, windowState: WindowState) {
+        self.maxSpeed = maxSpeed
+        self.engineState = engineState
+        self.windowState = windowState
+        super.init(brand: brand, year: year)
+    }
+
+
+    override func description() -> () {
+        print("Марка спортивного автомобиля: \(brand), год выпуска: \(year), двигатель \(engineState.rawValue), окна \(windowState.rawValue).")
+        print("Максимальная скорость: \(maxSpeed) км/ч.")
+    }
+
+
+}
+
+
+// создание экземпляра подкласса SportCar:
+var newSportCar = SportCar(brand: "Ferrari", year: 2019, maxSpeed: 200, engineState: .stop, windowState: .close)
+newSportCar.description()

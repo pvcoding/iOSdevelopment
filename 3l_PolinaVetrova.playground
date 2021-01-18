@@ -1,0 +1,136 @@
+//: Playground - noun: a place where people can play
+
+import UIKit
+
+
+enum EngineState {
+    case start
+    case stop
+}
+
+enum IsWindowOpen{
+    case open
+    case close
+}
+
+
+
+
+struct SportCar {
+
+    var brand           : String
+    var year            : Int
+    var maxSpeed        : Double
+    var color           : String
+    var carMileage      : Int
+
+
+    var windows : IsWindowOpen {
+        willSet {
+            if newValue == .open {
+                print("Окна открыты")
+            } else {
+                print("Окна закрыты")
+            }
+        }
+    }
+
+
+    var engineState : EngineState {
+        willSet {
+            if newValue == .start {
+                print("Двигатель включен")
+            } else {
+                print("Двигатель выключен")
+            }
+        }
+    }
+
+
+    func description() -> () {
+
+        print("Марка спортивного автомобиля: \(self.brand), год выпуска: \(self.year), максимальная скорость: \(self.maxSpeed) км/ч, километраж: \(self.carMileage), цвет: \(color)")
+    }
+
+    mutating func changeColor(newColor : String) {
+        self.color  = newColor
+        print("Новый цвет машины: \(newColor)")
+    }
+
+    mutating func addMileage (mil : Int) {
+        self.carMileage += mil
+        print("Прошедший километраж: \(mil), общий километраж: \(carMileage)")
+
+    }
+}
+
+
+
+
+struct TrunkCar {
+
+    var brand           : String
+    var year            : Int
+    var volumeOfTrunk   : Double
+    var usedVolume      : Double
+
+    var windows : IsWindowOpen {
+        willSet {
+            if newValue == .open {
+                print("В машине \(brand) окна открыты")
+            } else {
+                print("В машине \(brand) окна закрыты")
+            }
+        }
+    }
+
+
+    var engineState : EngineState {
+        willSet {
+            if newValue == .start {
+                print("Двигатель включен")
+            } else {
+                print("Двигатель выключен")
+            }
+        }
+    }
+
+
+    func description() -> () {
+
+        print("Марка грузового автомобиля: \(self.brand), год выпуска: \(self.year), объем багажника: \(self.volumeOfTrunk), использованный объем багажника: \(self.usedVolume)")
+    }
+
+    mutating func useTrunk(use : Double) {
+        if use <= 0  {
+            print("Неверное значение")
+        } else if use > (volumeOfTrunk - usedVolume) {
+            print("В машине недостаточно места")
+        } else {
+            self.usedVolume += use
+            print("В багажник загружено: \(use), всего загружено: \(usedVolume)")
+        }
+    }
+
+
+}
+
+var newTrunkCar = TrunkCar(brand: "ВАЗ", year: 2012, volumeOfTrunk: 120.0, usedVolume: 20.0, windows: .open, engineState: .stop)
+
+newTrunkCar.description()
+newTrunkCar.windows = .open
+newTrunkCar.engineState = .start
+newTrunkCar.useTrunk(use: 20.0)
+newTrunkCar.useTrunk(use: 140.0)
+
+
+print("_______________________________")
+
+
+var newSportCar = SportCar(brand: "BMW", year: 2019, maxSpeed: 280, color: "Белый", carMileage: 300, windows: .open, engineState: .stop)
+
+newSportCar.description()
+newSportCar.changeColor(newColor: "Красный")
+newSportCar.windows = .close
+newSportCar.engineState = .start
+newSportCar.addMileage(mil: 20)

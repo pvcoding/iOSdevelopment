@@ -1,0 +1,117 @@
+//: Playground - noun: a place where people can play
+
+import UIKit
+
+
+// 1. Написать функцию, которая определяет, четное число или нет.
+
+func isEvenNumber(number: Int) -> Bool {
+    if number % 2 == 0 {
+        return true
+    } else {
+        return false
+    }
+
+}
+
+
+isEvenNumber(number: 10)
+isEvenNumber(number: 11)
+
+
+
+
+// 2. Написать функцию, которая определяет, делится ли число без остатка на 3.
+
+func isDivByThree(number: Int) -> Bool {
+    if number % 3 == 0 {
+        return true
+    } else {
+        return false
+    }
+}
+
+
+isDivByThree(number: 6)
+isDivByThree(number: 7)
+
+
+
+
+// 3. Создать возрастающий массив из 100 чисел.
+
+var hundredArray: Array<Int> = []
+for i in 1...100 {
+    hundredArray.append(i)
+}
+
+hundredArray
+
+
+
+// 4. Удалить из этого массива все четные числа и все числа, которые не делятся на 3.
+
+
+var filteredArray = hundredArray.filter {$0 % 2 != 0 && $0 % 3 != 0}
+filteredArray
+
+
+
+
+
+ //5. * Написать функцию, которая добавляет в массив новое число Фибоначчи, и добавить при помощи нее 50 элементов.
+
+func fibonacci(_ n: Int) -> [Int] {
+    var fibonacciArray: [Int] = [1, 1]
+    for i in 2...n {
+        fibonacciArray.append(fibonacciArray[i - 1] + fibonacciArray[i - 2])
+    }
+
+    return fibonacciArray
+}
+fibonacci(50)
+
+
+// Пометка преподавателю: Функция работет до 91, после 92 случается краш, я не разобралась почему..
+
+
+
+
+
+//6. Заполнить массив из 100 элементов различными простыми числами.
+// Всё закомментила, так как выдает ошибку:
+//error: value of type '[Int]' has no member 'firstIndex'
+// сделано идентично Вашему файлу
+
+
+
+/*
+func isPrime(_ num: Int, of divider: Int) -> Bool {
+    return num % divider == 0
+}
+
+var integers: [Int] = []
+
+while integers.count != 10 {
+    integers.append(integers.count + 2)
+}
+print(integers)
+
+var p: Int
+var index = 0
+
+while index < integers.count - 1{
+    p = integers[index]
+
+
+    for num in integers {
+        if (num != p) && isPrime(num, of: p) {
+            integers.remove(at: integers.firstIndex(of: num)!)
+        }
+    }
+    index += 1
+}
+
+print(integers)
+
+*/
