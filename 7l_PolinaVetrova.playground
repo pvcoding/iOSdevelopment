@@ -1,0 +1,175 @@
+/*
+ Придумать класс, методы которого могут завершаться неудачей и возвращать либо значение, либо ошибку Error?. Реализовать их вызов и обработать результат метода при помощи конструкции if let, или guard let.
+ Придумать класс, методы которого могут выбрасывать ошибки. Реализуйте несколько throws-функций. Вызовите их и обработайте результат вызова при помощи конструкции try/catch.
+
+ */
+import UIKit
+
+
+
+class SportGym {
+    private var clients = [
+        "Ivan"  : 3000,
+        "Elena" : 1000,
+        "Roman" : 250
+    ]
+
+    func score(atFio fio: String) -> Int? {
+        return clients[fio]
+    }
+
+    func averageScore() -> Int {
+
+        guard clients.count > 1 else {
+            return 0
+        }
+
+        var totalScore = 0
+        for client in clients {
+            totalScore += client.value
+        }
+        return totalScore / clients.count
+    }
+}
+
+let gym = SportGym()
+print(gym.score(atFio: "Ivan"))
+print(gym.score(atFio: "Dmitriy"))
+
+print("Average score of the group: \(gym.averageScore())")
+
+// ***************************
+
+print("_______")
+
+
+struct Item {
+    var price: Int
+    var count: Int
+    var product: Product
+}
+
+struct Product {
+    let name: String
+}
+
+enum VendStoreError: Error {
+    case noItem
+    case outOfStock
+    case notEnoughMoney(needMoney: Int)
+}
+
+
+class SportStore {
+
+    var inventory = [
+        "Штанга" : Item(price: 2000, count: 5, product: Product(name: "Штанга")),
+        "Гиря"   : Item(price: 1500, count: 2, product: Product(name: "Гиря")),
+        "Гантели": Item(price: 500, count: 0, product: Product(name: "Гантели"))
+    ]
+
+    var moneyDeposited = 0
+
+    func vend(itemName name: String) -> (Product?, VendStoreError?) {
+        guard let item = inventory[name] else {
+            print("Error: Item doesn't exist")
+            return (nil, VendStoreError.noItem)
+        }
+        guard item.count > 0 else {
+            print("Error: Item is out of stock")
+            return (nil, VendStoreError.outOfStock)
+        }
+        guard item.price <= moneyDeposited else {
+            let moneyToDeposit = item.price - moneyDeposited
+            print("Error: Not enough money, needed: \(moneyToDeposit)")
+            return (nil, VendStoreError.notEnoughMoney(needMoney: moneyToDeposit))
+        }
+
+        moneyDeposited -= item.price
+        var newItem = item
+        newItem.count -= 1
+        inventory[name] = newItem
+        print("Buying \(name)")
+        return (newItem.product, nil)
+    }
+}
+
+let gymStore = SportStore()
+let sell1 = gymStore.vend(itemName: "Гиря")
+gymStore.moneyDeposited = 20000
+let sell2 = gymStore.vend(itemName: "Гантели")
+let sell3 = gymStore.vend(itemName: "Турник")
+let sell4 = gymStore.vend(itemName: "Штанга")
+
+//****************
+print("__________")
+
+
+
+class TravelStore {
+
+    var inventory = [
+        "Палатка" : Item(price: 2000, count: 5, product: Product(name: "Палатка")),
+        "Спальник"   : Item(price: 1500, count: 2, product: Product(name: "Спальник")),
+        "Удочка": Item(price: 500, count: 0, product: Product(name: "Удочка"))
+    ]
+
+    var moneyDeposited = 0
+
+    func vend(itemName name: String) throws -> Product {
+
+        guard let item = inventory[name] else {
+            throw VendStoreError.noItem
+        }
+        guard item.count > 0 else {
+            throw VendStoreError.outOfStock
+        }
+
+        guard item.price <= moneyDeposited else {
+            throw VendStoreError.notEnoughMoney(needMoney: item.price - moneyDeposited)
+        }
+
+        moneyDeposited -= item.price
+        var newItem = item
+        newItem.count -= 1
+        inventory[name] = newItem
+        print("Buying \(name)")
+        return newItem.product
+
+    }
+
+}
+
+let travelStore = TravelStore()
+do {
+    let sellTur = try travelStore.vend(itemName: "Спички")
+} catch VendStoreError.noItem {
+    print("Item doesn't exist")
+} catch VendStoreError.outOfStock {
+    print("Out of stock")
+} catch VendStoreError.notEnoughMoney {
+    print("Not enough money")
+}
+
+
+do {
+    let sellTur2 = try travelStore.vend(itemName: "Удочка")
+} catch VendStoreError.noItem {
+    print("Item doesn't exist")
+} catch VendStoreError.outOfStock {
+    print("Out of stock")
+} catch VendStoreError.notEnoughMoney {
+    print("Not enough money")
+}
+
+
+
+do {
+    let sellTur3 = try travelStore.vend(itemName: "Спальник")
+} catch VendStoreError.noItem {
+    print("Item doesn't exist")
+} catch VendStoreError.outOfStock {
+    print("Out of stock")
+} catch VendStoreError.notEnoughMoney {
+    print("Not enough money")
+}
