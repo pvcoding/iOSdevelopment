@@ -142,7 +142,7 @@ class TravelStore {
 
 let travelStore = TravelStore()
 do {
-    let sellTur = try travelStore.vend(itemName: "Спички")
+    try travelStore.vend(itemName: "Спички")
 } catch VendStoreError.noItem {
     print("Item doesn't exist")
 } catch VendStoreError.outOfStock {
@@ -153,7 +153,7 @@ do {
 
 
 do {
-    let sellTur2 = try travelStore.vend(itemName: "Удочка")
+    try travelStore.vend(itemName: "Удочка")
 } catch VendStoreError.noItem {
     print("Item doesn't exist")
 } catch VendStoreError.outOfStock {
@@ -165,7 +165,7 @@ do {
 
 
 do {
-    let sellTur3 = try travelStore.vend(itemName: "Спальник")
+    try travelStore.vend(itemName: "Спальник")
 } catch VendStoreError.noItem {
     print("Item doesn't exist")
 } catch VendStoreError.outOfStock {
